@@ -18,20 +18,21 @@
    ```bash
    npm install
 
-   - Start Backend
-   ```bash
-   cd backend
-   npm i express-validator
-   cd..
+- Start Backend
+```bash
+cd backend
+npm i express-validator
+cd..
 
-   - Frontend
-   ```bash
-   npm i cors
-   npm i mongoose
-   npm i concurrently
+- Frontend
+```bash
+npm i cors
+npm i mongoose
+npm i concurrently
 
-   - Start the app
-   ```bash npm run both
+- Start the app
+```bash
+npm run both
    
    
    
