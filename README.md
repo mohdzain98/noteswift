@@ -15,14 +15,10 @@
    cd noteswift
 
 2. Install Dependencies
-   1. Running backend
    ```bash
-   cd backend
-   npm i express-validator
-   cd..
-   2. Running Frontend
-   ```bash
-   npm i cors
-   npm i mongoose
-   npm i concurrently
+   npm install
+
+   1. Start Backend
+   
+   
    
