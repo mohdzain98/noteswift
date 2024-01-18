@@ -18,7 +18,7 @@
    ```bash
    npm install
 
-   1. Start Backend
+- Start Backend
    
    
    
