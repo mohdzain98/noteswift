@@ -22,7 +22,7 @@
 ```bash
 cd backend
 npm i express-validator
-cd..
+cd..```
 
 - Frontend
 ```bash
@@ -33,6 +33,8 @@ npm i concurrently
 - Start the app
 ```bash
 npm run both
+
+
    
    
    
