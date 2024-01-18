@@ -34,7 +34,14 @@
    ```bash
    npm run both
 
+3. It will be opened in the browser or go to <a href="http://127.0.0.1:3000/" target="_BLANK">http://localhost:3000/</a> to view the app
 
+## Usage
+### Signup
+As to save the notes in the db user is required to signup once he visits the app for the first time
+
+### Login
+If you already sign up you can login directly to the dashboard, user will stay login till he doesn't clear browser storage or logout himself. 
    
    
    
