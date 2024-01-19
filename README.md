@@ -2,9 +2,8 @@
 ### A full stack web app to save the notes of users on the web which can be accessed from anywhere.
 
 ## Prerequisites
-- Node.js
-- MongoDB
-- npm
+- Node.js <a href="https://nodejs.org/en">Download </a> from here
+- MongoDB <a href="https://www.mongodb.com/try/download/community">Download </a> from here
 
 ## Getting Started
 
