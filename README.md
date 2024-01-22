@@ -41,6 +41,9 @@ As to save the notes in the db user is required to signup once he visits the app
 
 ### Login
 If you already sign up you can login directly to the dashboard, user will stay login till he doesn't clear browser storage or logout himself. 
-   
-   
+
+### Features
+- Add a Note
+- Delete a Note
+- Edit Note
    
