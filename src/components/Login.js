@@ -1,10 +1,21 @@
-import React, { useState } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { useNavigate} from 'react-router-dom'
-import '../App.css';
+import '../LoginSignup.css';
+import noteContext from '../context/notes/noteContext'
+import emailpic from '../Assets/email.png'
+import passpic from '../Assets/password.png'
 
 const Login = (props) => {
     const [cred, setCred] = useState({email:"", password:""})
+    const context = useContext(noteContext)
+    const {getUser} = context
     const navigate = useNavigate()
+    useEffect(()=>{
+      if(localStorage.getItem('token')){
+        navigate('/home')
+      }
+       // eslint-disable-next-line
+    },[])
     const handleSubmit = async (e)=>{
         e.preventDefault();
         const response = await fetch("http://localhost:5000/api/auth/login", {
@@ -18,8 +29,9 @@ const Login = (props) => {
           if(json.success){
             //save the token and redirect
             localStorage.setItem('token', json.authToken)
-            navigate("/")
+            navigate("/home")
             props.showAlert("Login Sucessfully","success")
+            getUser()
           }else{
             props.showAlert("Invalid Credential, If you are new Kindly Login","danger")
           }
@@ -27,24 +39,48 @@ const Login = (props) => {
     const onChange = (e)=>{
         setCred({...cred, [e.target.name]:e.target.value})
     }
+    const showPassword =()=>{
+      let x = document.getElementById('password');
+        if (x.type === "password") {
+          x.type = "text";
+        } else {
+          x.type = "password";
+      }
+    }
   return (
-    <div className='container mx-2 my-3' id='login'>
-      <div className='box'>
-        <h3>Login to continue</h3>
-        <hr className='hr hr-blurry'></hr>
-      <form onSubmit={handleSubmit}>
-        <div className="mb-3">
-            <label htmlFor="email" className="form-label">Email address</label>
-            <input type="email" className="form-control" id="email" name='email' value={cred.email}onChange={onChange} aria-describedby="emailHelp"/>
-        </div>
-        <div className="mb-3">
-            <label htmlFor="password" className="form-label">Password</label>
-            <input type="password" className="form-control" id="password" name='password' onChange={onChange} value={cred.password}/>
-        </div>
-        <button type="submit" className="btn btn-primary" >Login</button>
-        </form>
+    <>
+    <div className='d-none d-lg-block'>
+    <div className='container my-3' id='lsp'>
+      <div style={{width: '45%', marginLeft:'10px'}}>
+      <h3 id='lsph3'>NoteSwift</h3>
+      <p style={{color:'white',fontFamily: 'cursive',fontSize:'20px'}}>"When your heart speaks, take good notes"</p>
+      </div>
       </div>
     </div>
+    <div className='container my-3' id='ls'>
+      <div className="header">
+        <div className="text">Login</div>
+        <div className="underline"></div>
+      </div>
+      <form onSubmit={handleSubmit}>
+      <div className='inputs'>
+        <div className="input">
+            <img src={emailpic} alt='email'/>
+            <input type="email" id="email" name='email' value={cred.email} onChange={onChange}/>
+        </div>
+        <div className="input">
+        <img src={passpic} alt='password'/>
+             <input type="password" id="password" name='password' onChange={onChange} value={cred.password}/>
+        </div>
+        </div> 
+        <input className='ms-4 me-1 my-3' type="checkbox" onClick={showPassword} />Show Password
+        <div className="submit-container">
+        <button type="submit" className="submit">Login</button>
+        </div>
+        </form>
+    </div>
+    
+    </>
   )
 }
 

@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import NoteContext from "./noteContext";
 
 const NoteState = (props)=>{
-  const host = "http://localhost:5000"
     const notesInitial=[]
     const [notes,setNotes] = useState(notesInitial)
+    const {host,fetchAllNotes,addNotes, deleteNotes, updateNotes, getUsers}= props.host
 
     //fetch all notes
     const getNotes = async ()=>{
-      const response = await fetch(`${host}/api/notes/fetchallnotes`, {
+      const response = await fetch(`${host}${fetchAllNotes}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -21,7 +21,7 @@ const NoteState = (props)=>{
     }
     //Add a note
     const addNote = async (title, description, tag)=>{
-      const response = await fetch(`${host}/api/notes/addnote`, {
+      const response = await fetch(`${host}${addNotes}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -36,7 +36,8 @@ const NoteState = (props)=>{
 
     //Delete a note
     const deleteNote = async (id) => {
-      const response = await fetch(`${host}/api/notes/deletenote/${id}`, {
+      // eslint-disable-next-line
+      const response = await fetch(`${host}${deleteNotes}${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -51,7 +52,8 @@ const NoteState = (props)=>{
     //Edit a note
     const editNote = async (id, title, description, tag)=>{
       //API Call
-      const response = await fetch(`${host}/api/notes/updatenote/${id}`, {
+      // eslint-disable-next-line
+      const response = await fetch(`${host}${updateNotes}${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -74,8 +76,23 @@ const NoteState = (props)=>{
       }
       setNotes(newNotes);
     }
+
+    //getting users details
+    const [user,setUser] = useState("")
+    const getUser = async ()=>{
+      const response = await fetch(`${host}${getUsers}`, {
+          method: "POST",
+          headers: {
+            "auth-token": localStorage.getItem('token')
+          },
+        });
+  
+        const json = await response.json();
+        setUser(json.name)
+        
+    }
     return(
-        <NoteContext.Provider value={{notes,setNotes, addNote, deleteNote, editNote, getNotes}}>
+        <NoteContext.Provider value={{notes,setNotes, addNote, deleteNote, editNote, getNotes, user, getUser}}>
             {props.children}
         </NoteContext.Provider>
     )

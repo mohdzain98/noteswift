@@ -17,10 +17,10 @@ const AddNote = (props) => {
         setNote({...note, [e.target.name]:e.target.value})
     }
   return (
-    <div className='container my-3'>
+    <div className='container my-3 '>
       <h2>Add a Swift Note</h2>
       <hr></hr>
-      <form style={{ width:"600px"}}>
+      <form>
         <div className="mb-3">
             <label htmlFor="title" className="form-label">Title</label>
             <input type="text" className="form-control" id="title" name='title' aria-describedby="emailHelp" placeholder="Title"  value={note.title}onChange={onChange}/>

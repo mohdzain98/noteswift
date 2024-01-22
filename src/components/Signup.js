@@ -1,15 +1,28 @@
-import React, { useState } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { useNavigate} from 'react-router-dom'
-import '../App.css';
-
+import '../LoginSignup.css';
+import noteContext from '../context/notes/noteContext'
+import emailpic from '../Assets/email.png'
+import passpic from '../Assets/password.png'
+import person from '../Assets/person.png'
 
 const Signup = (props) => {
     const [cred, setCred] = useState({name:"", email:"", password:"", cpassword:""})
     const navigate = useNavigate()
+    const context = useContext(noteContext)
+    const {getUser} = context
+
+    useEffect(()=>{
+      if(localStorage.getItem('token')){
+        navigate('/home')
+      }
+       // eslint-disable-next-line
+    },[])
 
     const handleSubmit = async (e)=>{
         e.preventDefault();
-        const {name, email,password} = cred
+        const {name, email,password, cpassword} = cred
+        if(password === cpassword){
         const response = await fetch("http://localhost:5000/api/auth/createuser", {
             method: "POST",
             headers: {
@@ -18,47 +31,77 @@ const Signup = (props) => {
             body: JSON.stringify({name: name,email:email, password:password})
           });
           const json = await response.json()
-          console.log(json)
           if(json.success){
             //save the token and redirect
             localStorage.setItem('token', json.authToken)
-            navigate("/")
-            props.showAlert("Account Created Successfully","Success")
+            navigate("/home")
+            props.showAlert("Account Created Successfully","success")
+            getUser()
           }else{
-            props.showAlert("Account already exist, kindly Login","danger")
+            props.showAlert("Something is Wrong: Either account already exist or There is an error","danger")
           }
+        }
+        else{
+          props.showAlert("Password and Confirm Password does not match",'danger')
+        }
     }
 
     const onChange = (e)=>{
         setCred({...cred, [e.target.name]:e.target.value})
     }
+    const showPassword =()=>{
+      let x = document.getElementById('password');
+      let y = document.getElementById('cpassword')
+      if (x.type && y.type === "password") {
+        x.type = "text";
+        y.type = "text"
+      } else {
+        x.type = "password";
+        y.type = "password"
+      }
+    }
   return (
-    <div className='container mx-3 my-3' id='signup'>
-      <div className='box'>
-        <h3>Register Yourself on NoteSwift</h3>
-        <hr className='hr hr-blurry'></hr>
-      <form onSubmit={handleSubmit}>
-        <div className='mb-3'>
-            <label htmlFor="name" className="form-label">Name</label>
-            <input type="text" className="form-control" id="name" name='name' value={cred.name} onChange={onChange}  required/>
-        
-        </div>
-        <div className="mb-3">
-            <label htmlFor="email" className="form-label">Email address</label>
-            <input type="email" className="form-control" id="email" name='email' value={cred.email}onChange={onChange} aria-describedby="emailHelp"  required/>
-        </div>
-        <div className="mb-3">
-            <label htmlFor="password" className="form-label">Password</label>
-            <input type="password" className="form-control" id="password" name='password' onChange={onChange} value={cred.password} minLength={5} required/>
-        </div>
-        <div className="mb-3">
-            <label htmlFor="password" className="form-label">Confirm Password</label>
-            <input type="password" className="form-control" id="cpassword" name='cpassword' onChange={onChange} value={cred.cpassword} minLength={5} required/>
-        </div>
-        <button type="submit" className="btn btn-primary" >Register</button>
-        </form>
+    
+    <>
+    <div className='d-none d-lg-block'>
+    <div className='container my-3' id='ssp'>
+      <div style={{width: '45%', marginLeft:'10px'}}>
+      <h3 id='lsph3'>NoteSwift</h3>
+      <p style={{color:'white',fontFamily: 'cursive',fontSize:'20px'}}>"Take notes, constantly. Save interesting thoughts, quotations, films, technologies... the medium doesn't matter, so long as it inspires you."</p>
+      </div>
       </div>
     </div>
+    <div className='container my-3' id='ls'>
+      <div className="sheader">
+        <div className="text">Signup</div>
+        <div className="underline"></div>
+      </div>
+      <form onSubmit={handleSubmit}>
+      <div className='inputs'>
+      <div className="input">
+            <img src={person} alt='email'/>
+            <input type="text" placeholder='Name' id="name" name='name' value={cred.name} onChange={onChange}  required/>
+        </div>
+        <div className="input">
+            <img src={emailpic} alt='email'/>
+            <input type="email" placeholder='Email' id="email" name='email' value={cred.email}onChange={onChange}  required/>
+        </div>
+        <div className="input">
+        <img src={passpic} alt='password'/>
+        <input type="password" placeholder='Password' id="password" name='password' onChange={onChange} value={cred.password} minLength={5} required/>
+        </div>
+        <div className="input">
+        <img src={passpic} alt='password'/>
+        <input type="password" placeholder='Confirm Password' id="cpassword" name='cpassword' onChange={onChange} value={cred.cpassword} minLength={5} required/>
+        </div>
+        </div> 
+        <input className='ms-3 me-1 my-3' type="checkbox" onClick={showPassword} />Show Password
+        <div className="ssubmit-container">
+        <button type="submit" className="submit">Signup</button>
+        </div>
+        </form>
+    </div>
+    </>
   )
 }
 

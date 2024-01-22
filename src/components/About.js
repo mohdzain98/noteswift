@@ -22,6 +22,7 @@ const About = () => {
 
   return (
     <>
+    <div className='container'>
     <div className='col-md-12' style={{borderRadius: "10px", display:"flex"}}>
     <div className='col-md-8 col-xs-12 bg-warning' style={{padding:"10px", borderBottomLeftRadius:"10px",borderTopLeftRadius:"10px"}}>
       <h2>NoteSwift</h2>
@@ -37,6 +38,7 @@ const About = () => {
         <li>Seamless Synchronization</li>
         <li>Intuitive User Interface</li>
       </ul>
+    </div>
     </div>
     </div>
     </>
