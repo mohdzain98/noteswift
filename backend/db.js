@@ -1,9 +1,10 @@
 const mongoose = require('mongoose')
-const mongoUri = "mongodb://localhost:27017/noteswift"
+require('dotenv').config()
 
+const mongoUri = REACT_APP_DB
 const connectToMongo = async () =>{
     try{
-        mongoose.connect(mongoUri)
+        await mongoose.connect(mongoUri)
         console.log('mongo connected')
     }catch(error){
         console.log('error'+error)

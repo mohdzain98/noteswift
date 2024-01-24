@@ -10,6 +10,7 @@ const Login = (props) => {
     const context = useContext(noteContext)
     const {getUser} = context
     const navigate = useNavigate()
+    const {host,showAlert} = props.prop
     useEffect(()=>{
       if(localStorage.getItem('token')){
         navigate('/home')
@@ -18,7 +19,8 @@ const Login = (props) => {
     },[])
     const handleSubmit = async (e)=>{
         e.preventDefault();
-        const response = await fetch("http://localhost:5000/api/auth/login", {
+        console.log(host)
+        const response = await fetch(`${host}/api/auth/login`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -30,10 +32,10 @@ const Login = (props) => {
             //save the token and redirect
             localStorage.setItem('token', json.authToken)
             navigate("/home")
-            props.showAlert("Login Sucessfully","success")
+            showAlert("Login Sucessfully","success")
             getUser()
           }else{
-            props.showAlert("Invalid Credential, If you are new Kindly Login","danger")
+            showAlert("Invalid Credential, If you are new Kindly Login","danger")
           }
     }
     const onChange = (e)=>{
