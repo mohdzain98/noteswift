@@ -11,10 +11,10 @@ const Notes = (props) => {
     const {notes, getNotes, editNote} = context
     const navigate = useNavigate()
     const [loader,setLoader] = useState("")
-    useEffect(()=>{
+    useEffect(async ()=>{
       if(localStorage.getItem('token')){
         setLoader("spinner-border")
-        getNotes()
+        await getNotes()
         setLoader("")
       }else{
         navigate("/login")
