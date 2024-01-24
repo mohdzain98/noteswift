@@ -13,7 +13,7 @@ import GetStarted from './components/GetStarted';
 function App() {
   const [alert, setAlert] = useState(null)
   const host = process.env.REACT_APP_HOST
-
+  
   const showAlert = (message, type) =>{
     setAlert({
       msg : message,
