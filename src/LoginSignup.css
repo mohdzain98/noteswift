@@ -91,12 +91,12 @@
   }
   .input input{
     height: 35px;
-    width:400px;
+    width:330px;
     background: transparent;
     border: none;
     outline:none;
     color:#0f0f0f;
-    font-size: 19px;
+    font-size: 16px;
   }
   
   .submit-container{

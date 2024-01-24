@@ -4,6 +4,7 @@ import '../LoginSignup.css';
 import noteContext from '../context/notes/noteContext'
 import emailpic from '../Assets/email.png'
 import passpic from '../Assets/password.png'
+import { useMediaQuery } from 'react-responsive'
 
 const Login = (props) => {
     const [cred, setCred] = useState({email:"", password:""})
@@ -11,6 +12,9 @@ const Login = (props) => {
     const {getUser} = context
     const navigate = useNavigate()
     const {host,showAlert} = props.prop
+    const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
+    const [loader,setLoader] = useState("")
+
     useEffect(()=>{
       if(localStorage.getItem('token')){
         navigate('/home')
@@ -19,7 +23,7 @@ const Login = (props) => {
     },[])
     const handleSubmit = async (e)=>{
         e.preventDefault();
-        console.log(host)
+        setLoader("spinner-border spinner-border-sm me-2")
         const response = await fetch(`${host}/api/auth/login`, {
             method: "POST",
             headers: {
@@ -30,12 +34,14 @@ const Login = (props) => {
           const json = await response.json()
           if(json.success){
             //save the token and redirect
+            setLoader("")
             localStorage.setItem('token', json.authToken)
             navigate("/home")
             showAlert("Login Sucessfully","success")
             getUser()
           }else{
-            showAlert("Invalid Credential, If you are new Kindly Login","danger")
+            showAlert("Invalid Credential, If you are new Kindly Signup","danger")
+            setLoader("")
           }
     }
     const onChange = (e)=>{
@@ -59,25 +65,28 @@ const Login = (props) => {
       </div>
       </div>
     </div>
-    <div className='container my-3' id='ls'>
+    <div className={`container ${isTabletOrMobile?"my-5":"my-3"}`} id='ls' style={isTabletOrMobile ?{ width:"340px"} :{}}>
       <div className="header">
         <div className="text">Login</div>
         <div className="underline"></div>
       </div>
       <form onSubmit={handleSubmit}>
       <div className='inputs'>
-        <div className="input">
+        <div className="input" style={isTabletOrMobile ?{ width:"330px"} :{}}>
             <img src={emailpic} alt='email'/>
-            <input type="email" id="email" name='email' value={cred.email} onChange={onChange}/>
+            <input type="email" id="email" name='email' value={cred.email} onChange={onChange} placeholder='Email' required/>
         </div>
-        <div className="input">
+        <div className="input" style={isTabletOrMobile ?{ width:"330px"} :{}}>
         <img src={passpic} alt='password'/>
-             <input type="password" id="password" name='password' onChange={onChange} value={cred.password}/>
+             <input type="password" id="password" name='password' onChange={onChange} value={cred.password} placeholder='Password' required/>
         </div>
         </div> 
-        <input className='ms-4 me-1 my-3' type="checkbox" onClick={showPassword} />Show Password
+        <input className={`me-1 my-3 ${isTabletOrMobile?"ms-2":"ms-4"}`} type="checkbox" onClick={showPassword} />Show Password
         <div className="submit-container">
-        <button type="submit" className="submit">Login</button>
+        <button className="submit" type="submit">
+          <span className={loader} role="status" aria-hidden="true"></span>
+          Login
+        </button>
         </div>
         </form>
     </div>

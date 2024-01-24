@@ -5,13 +5,17 @@ import NoteItem from './NoteItem'
 import AddNote from './AddNote'
 import { useNavigate } from 'react-router-dom'
 
+
 const Notes = (props) => {
     const context = useContext(noteContext)
     const {notes, getNotes, editNote} = context
     const navigate = useNavigate()
+    const [loader,setLoader] = useState("")
     useEffect(()=>{
       if(localStorage.getItem('token')){
+        setLoader("spinner-border")
         getNotes()
+        setLoader("")
       }else{
         navigate("/login")
       }
@@ -76,6 +80,10 @@ const Notes = (props) => {
     <div className='row my-3'>
         <hr className='hr hr-blurry'></hr>
         <h2>Your Notes</h2>
+        <div className="d-flex justify-content-center" style={{position:"relative"}}>
+          <div className={loader} role="status">
+          </div>
+        </div>
         <div className='container mx-1'>
           {notes.length === 0 && "No Notes to Display"}
         </div>

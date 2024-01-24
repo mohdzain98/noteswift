@@ -5,6 +5,7 @@ import noteContext from '../context/notes/noteContext'
 import emailpic from '../Assets/email.png'
 import passpic from '../Assets/password.png'
 import person from '../Assets/person.png'
+import { useMediaQuery } from 'react-responsive'
 
 const Signup = (props) => {
     const [cred, setCred] = useState({name:"", email:"", password:"", cpassword:""})
@@ -12,6 +13,9 @@ const Signup = (props) => {
     const context = useContext(noteContext)
     const {getUser} = context
     const {host,showAlert} = props.prop
+    const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
+    const [loader,setLoader] = useState("")
+
     useEffect(()=>{
       if(localStorage.getItem('token')){
         navigate('/home')
@@ -23,6 +27,7 @@ const Signup = (props) => {
         e.preventDefault();
         const {name, email,password, cpassword} = cred
         if(password === cpassword){
+        setLoader("spinner-border spinner-border-sm")
         const response = await fetch(`${host}/api/auth/createuser`, {
             method: "POST",
             headers: {
@@ -33,6 +38,7 @@ const Signup = (props) => {
           const json = await response.json()
           if(json.success){
             //save the token and redirect
+            setLoader("")
             localStorage.setItem('token', json.authToken)
             navigate("/home")
             showAlert("Account Created Successfully","success")
@@ -71,33 +77,37 @@ const Signup = (props) => {
       </div>
       </div>
     </div>
-    <div className='container my-3' id='ls'>
+    <div className={`container ${isTabletOrMobile?"my-5":"my-3"}`} id='ls' style={isTabletOrMobile ?{ width:"340px"} :{}}>
       <div className="sheader">
         <div className="text">Signup</div>
         <div className="underline"></div>
       </div>
       <form onSubmit={handleSubmit}>
       <div className='inputs'>
-      <div className="input">
+      <div className="input" style={isTabletOrMobile ?{ width:"330px"} :{}}>
             <img src={person} alt='email'/>
             <input type="text" placeholder='Name' id="name" name='name' value={cred.name} onChange={onChange}  required/>
         </div>
-        <div className="input">
+        <div className="input" style={isTabletOrMobile ?{ width:"330px"} :{}}>
             <img src={emailpic} alt='email'/>
             <input type="email" placeholder='Email' id="email" name='email' value={cred.email}onChange={onChange}  required/>
         </div>
-        <div className="input">
+        <div className="input" style={isTabletOrMobile ?{ width:"330px"} :{}}>
         <img src={passpic} alt='password'/>
         <input type="password" placeholder='Password' id="password" name='password' onChange={onChange} value={cred.password} minLength={5} required/>
         </div>
-        <div className="input">
+        <div className="input" style={isTabletOrMobile ?{ width:"330px"} :{}}>
         <img src={passpic} alt='password'/>
         <input type="password" placeholder='Confirm Password' id="cpassword" name='cpassword' onChange={onChange} value={cred.cpassword} minLength={5} required/>
         </div>
         </div> 
-        <input className='ms-3 me-1 my-3' type="checkbox" onClick={showPassword} />Show Password
+        <input className={`me-1 my-3 ${isTabletOrMobile?"ms-2":"ms-4"}`} type="checkbox" onClick={showPassword} />Show Password
         <div className="ssubmit-container">
-        <button type="submit" className="submit">Signup</button>
+        {/* <button type="submit" className="submit">Signup</button> */}
+        <button className="submit mx-2" type="submit">
+          <span className={loader} role="status" aria-hidden="true"></span>
+          Signup
+        </button>
         </div>
         </form>
     </div>
