@@ -11,7 +11,7 @@ const Signup = (props) => {
     const navigate = useNavigate()
     const context = useContext(noteContext)
     const {getUser} = context
-
+    const {host,showAlert} = props.prop
     useEffect(()=>{
       if(localStorage.getItem('token')){
         navigate('/home')
@@ -23,7 +23,7 @@ const Signup = (props) => {
         e.preventDefault();
         const {name, email,password, cpassword} = cred
         if(password === cpassword){
-        const response = await fetch("http://localhost:5000/api/auth/createuser", {
+        const response = await fetch(`${host}/api/auth/createuser`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -35,14 +35,14 @@ const Signup = (props) => {
             //save the token and redirect
             localStorage.setItem('token', json.authToken)
             navigate("/home")
-            props.showAlert("Account Created Successfully","success")
+            showAlert("Account Created Successfully","success")
             getUser()
           }else{
-            props.showAlert("Something is Wrong: Either account already exist or There is an error","danger")
+            showAlert("Something is Wrong: Either account already exist or There is an error","danger")
           }
         }
         else{
-          props.showAlert("Password and Confirm Password does not match",'danger')
+          showAlert("Password and Confirm Password does not match",'danger')
         }
     }
 

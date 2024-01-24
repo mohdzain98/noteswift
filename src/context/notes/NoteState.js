@@ -4,11 +4,11 @@ import NoteContext from "./noteContext";
 const NoteState = (props)=>{
     const notesInitial=[]
     const [notes,setNotes] = useState(notesInitial)
-    const {host,fetchAllNotes,addNotes, deleteNotes, updateNotes, getUsers}= props.host
+    const {host}= props.host
 
     //fetch all notes
     const getNotes = async ()=>{
-      const response = await fetch(`${host}${fetchAllNotes}`, {
+      const response = await fetch(`${host}/api/notes/fetchallnotes`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -21,7 +21,7 @@ const NoteState = (props)=>{
     }
     //Add a note
     const addNote = async (title, description, tag)=>{
-      const response = await fetch(`${host}${addNotes}`, {
+      const response = await fetch(`${host}/api/notes/addnote`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -37,7 +37,7 @@ const NoteState = (props)=>{
     //Delete a note
     const deleteNote = async (id) => {
       // eslint-disable-next-line
-      const response = await fetch(`${host}${deleteNotes}${id}`, {
+      const response = await fetch(`${host}/api/notes/deletenote/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -53,7 +53,7 @@ const NoteState = (props)=>{
     const editNote = async (id, title, description, tag)=>{
       //API Call
       // eslint-disable-next-line
-      const response = await fetch(`${host}${updateNotes}${id}`, {
+      const response = await fetch(`${host}/api/notes/updatenote/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -80,7 +80,7 @@ const NoteState = (props)=>{
     //getting users details
     const [user,setUser] = useState("")
     const getUser = async ()=>{
-      const response = await fetch(`${host}${getUsers}`, {
+      const response = await fetch(`${host}/api/auth/getuser`, {
           method: "POST",
           headers: {
             "auth-token": localStorage.getItem('token')

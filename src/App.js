@@ -13,11 +13,6 @@ import GetStarted from './components/GetStarted';
 function App() {
   const [alert, setAlert] = useState(null)
   const host = process.env.REACT_APP_HOST
-  const fetchAllNotes = process.env.REACT_APP_FETCH_ALL_NOTES
-  const addNotes = process.env.REACT_APP_ADD_NOTE
-  const deleteNotes = process.env.REACT_APP_DELETE_NOTE
-  const updateNotes = process.env.REACT_APP_UPDATE_NOTE
-  const getUsers =process.env.REACT_APP_GET_USER
 
   const showAlert = (message, type) =>{
     setAlert({
@@ -30,7 +25,7 @@ function App() {
   }
   return (
     <>
-    <NoteState host={{host, fetchAllNotes, addNotes, deleteNotes, updateNotes, getUsers}}>
+    <NoteState host={{host}}>
     <Router>
     <Navbar />
     <Alert alert={alert}/>
@@ -39,8 +34,8 @@ function App() {
      <Route exact path='/' element={<GetStarted/>}></Route> 
     <Route exact path='/home' element={<Home showAlert={showAlert} />}></Route>
     <Route exact path='/about' element={<About/>}></Route>
-    <Route exact path='/login' element={<Login showAlert={showAlert}/>}></Route>
-    <Route exact path='/signup' element={<Signup showAlert={showAlert}/>}></Route>
+    <Route exact path='/login' element={<Login prop={{host, showAlert}}/>}></Route>
+    <Route exact path='/signup' element={<Signup prop={{host, showAlert}}/>}></Route>
 
     </Routes>
     {/* </div> */}
