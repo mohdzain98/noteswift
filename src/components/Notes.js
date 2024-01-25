@@ -14,8 +14,7 @@ const Notes = (props) => {
     useEffect(()=>{
       if(localStorage.getItem('token')){
         setLoader("spinner-border")
-        getNotes()
-        setLoader("")
+        getNotes().then(()=>{setLoader("")})
       }else{
         navigate("/login")
       }
