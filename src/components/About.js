@@ -1,5 +1,6 @@
 import React from 'react'
 // import noteContext from '../context/notes/noteContext'
+// import { useState,useEffect } from 'react';
 
 const About = () => {
   // const a = useContext(noteContext)
@@ -10,7 +11,7 @@ const About = () => {
   //     setTimeout(() => {
   //       setLetter((prevLetter) => prevLetter + sentence[index])
   //       printLetters(sentence, index + 1);
-  //     }, 1000);
+  //     }, 900);
   //   }
   // };
 
@@ -32,8 +33,8 @@ const About = () => {
       <p>Save your ideas on the web securely and access them anywhere</p>
     </div>
     <div className='col-md-4 col-xs-12 bg-primary' style={{padding:"10px", borderTopRightRadius:"10px", borderBottomRightRadius:"10px"}}>
-      <h3>Key Features</h3>
-      <ul>
+      <h3 style={{color:"white"}}>Key Features</h3>
+      <ul style={{color:"white"}}>
         <li>Secure Cloud Storage</li>
         <li>Seamless Synchronization</li>
         <li>Intuitive User Interface</li>
