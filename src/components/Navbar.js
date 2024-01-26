@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useLocation } from 'react-router-dom'
 import noteContext from '../context/notes/noteContext'
@@ -12,13 +12,15 @@ function Navbar() {
   let ref = useRef(null)
   let location = useLocation()
   const navigate = useNavigate()
+  const [loader,setLoader] = useState("")
   const handleLogout =()=>{
     localStorage.removeItem('token')
     navigate("/")
     rollNavBack()
   }
   useEffect(()=>{
-    localStorage.getItem('token') && getUser()
+    setLoader("spinner-border spinner-border-sm")
+    localStorage.getItem('token') && getUser().then(()=>{setLoader("")})
     // eslint-disable-next-line
   },[])
  
@@ -29,7 +31,7 @@ function Navbar() {
     <div>
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
             <div className="container-fluid">
-                <Link className="navbar-brand" to='/'>NoteSwift</Link>
+                <Link className="navbar-brand" to='/' onClick={rollNavBack}>NoteSwift</Link>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" ref={ref}>
                 <span className="navbar-toggler-icon"></span>
                 </button>
@@ -43,8 +45,9 @@ function Navbar() {
                 <Link style={{display: `${location.pathname === '/'?"none":"initial"}`}} className='btn btn-primary mx-1' role='button' to='/signup' onClick={rollNavBack}>Signup</Link>
                 </form>:
                 <div className="btn-group">
-                <button type="button" className="btn btn-secondary dropdown-toggle me-4" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
-                <i className="fa-solid fa-user me-2" style={{color: "#FFD43B"}}></i>{user}
+                <button type="button" className="btn btn-secondary dropdown-toggle mx-2 me-2" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
+                <i className="fa-solid fa-user me-2" style={{color: "#FFD43B"}}></i>
+                <span className={loader} role="status" aria-hidden="true"></span>{user}
                 </button>
                 <ul className="dropdown-menu dropdown-menu-lg-end">
                   <li><button className="dropdown-item" onClick={handleLogout} type="button">Logout</button></li>
