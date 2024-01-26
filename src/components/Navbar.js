@@ -12,15 +12,14 @@ function Navbar() {
   let ref = useRef(null)
   let location = useLocation()
   const navigate = useNavigate()
-  const [loader,setLoader] = useState("")
+
   const handleLogout =()=>{
     localStorage.removeItem('token')
     navigate("/")
     rollNavBack()
   }
   useEffect(()=>{
-    setLoader("spinner-border spinner-border-sm")
-    localStorage.getItem('token') && getUser().then(()=>{setLoader("")})
+    localStorage.getItem('token') && getUser()
     // eslint-disable-next-line
   },[])
  
@@ -46,8 +45,7 @@ function Navbar() {
                 </form>:
                 <div className="btn-group">
                 <button type="button" className="btn btn-secondary dropdown-toggle mx-2 me-2" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
-                <i className="fa-solid fa-user me-2" style={{color: "#FFD43B"}}></i>
-                <span className={loader} role="status" aria-hidden="true"></span>{user}
+                <i className="fa-solid fa-user me-2" style={{color: "#FFD43B"}}></i>{user}
                 </button>
                 <ul className="dropdown-menu dropdown-menu-lg-end">
                   <li><button className="dropdown-item" onClick={handleLogout} type="button">Logout</button></li>
