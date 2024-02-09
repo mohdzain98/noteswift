@@ -24,6 +24,7 @@ const Login = (props) => {
     const handleSubmit = async (e)=>{
         e.preventDefault();
         setLoader("spinner-border spinner-border-sm me-2")
+        showAlert('This will take time as Server is running on free version','primary')
         const response = await fetch(`${host}/api/auth/login`, {
             method: "POST",
             headers: {

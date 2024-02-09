@@ -28,6 +28,7 @@ const Signup = (props) => {
         const {name, email,password, cpassword} = cred
         if(password === cpassword){
         setLoader("spinner-border spinner-border-sm")
+        showAlert('This will take time as Server is running on free version','primary')
         const response = await fetch(`${host}/api/auth/createuser`, {
             method: "POST",
             headers: {
